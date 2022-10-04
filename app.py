@@ -7,7 +7,7 @@ app.config.from_object(env_config)
 
 @app.route('/')
 def index():
-    return jsonify({"Choo Choo": "Welcome to your updated Flask app 🚅"})
+    return jsonify({"Choo Choo": "Welcome to your extra-primo Flask app 🚅"})
 
 
 if __name__ == '__main__':
