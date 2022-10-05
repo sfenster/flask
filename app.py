@@ -13,8 +13,8 @@ env_config = os.getenv("APP_SETTINGS", "config.DevelopmentConfig")
 app.config.from_object(env_config)
 
 redis_url = app.config.get("REDISURL", "redis://localhost:6379")
-conn = redis.from_url(redis_url)
-q = Queue(connection=conn)
+#conn = redis.from_url(redis_url)
+#q = Queue(connection=conn)
 
 @app.route('/')
 def index():
