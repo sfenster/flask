@@ -12,13 +12,13 @@ app = Flask(__name__)
 env_config = os.getenv("APP_SETTINGS", "config.DevelopmentConfig")
 app.config.from_object(env_config)
 
-redis_url = os.getenv('REDISURL', 'redis://localhost:6379')
+redis_url = app.config.get("REDISURL", "redis://localhost:6379")
 conn = redis.from_url(redis_url)
 q = Queue(connection=conn)
 
 @app.route('/')
 def index():
-    return jsonify({"Choo Choo": "Welcome to your extra, extra-primo Flask app. Your REDIS url is: " + redis_url + " 🚅"})
+    return jsonify({"Your APP_SETTINGS VARIABLE is " + env_config : " Your REDIS url is: " + redis_url + " 🚅"})
 
 
 @app.route('/tasks', methods=['GET'])
