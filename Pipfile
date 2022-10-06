@@ -14,6 +14,9 @@ werkzeug = "==1.0.1"
 redis = "*"
 rq = "*"
 requests = "*"
+psycopg2-binary = "*"
+flask-sqlalchemy = "===2.5.1"
+flask-migrate = "==3.1.0"
 
 [dev-packages]
 
