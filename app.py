@@ -5,17 +5,25 @@ import time
 import redis
 from rq import Queue, Worker, Retry
 from rq.job import Job
-import utils
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
+
 
 
 app = Flask(__name__)
 env_config = os.getenv("APP_SETTINGS", "config.DevelopmentConfig")
 app.config.from_object(env_config)
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db = SQLAlchemy(app)
+migrate = Migrate(app, db)
 
 redis_url = app.config.get("REDISURL", "redis://localhost:6379")
 postgres_url = app.config.get("SQLALCHEMY_DATABASE_URI", "postgresql:///wordcount_dev")
 conn = redis.from_url(redis_url)
 q = Queue(connection=conn)
+
+import utils
 
 @app.route('/')
 def index():
@@ -31,7 +39,7 @@ def queue_tasks():
 
 
 @app.route('/db-migrate', methods=['POST'])
-def queue_tasks():
+def migrate():
     job = q.enqueue(utils.db_migrate)
     # return created job id
     return "Job ID: " + str(job.get_id())
