@@ -13,12 +13,13 @@ env_config = os.getenv("APP_SETTINGS", "config.DevelopmentConfig")
 app.config.from_object(env_config)
 
 redis_url = app.config.get("REDISURL", "redis://localhost:6379")
+postgres_url = app.config.get("SQLALCHEMY_DATABASE_URI", "postgresql:///wordcount_dev")
 conn = redis.from_url(redis_url)
 q = Queue(connection=conn)
 
 @app.route('/')
 def index():
-    return jsonify({"Your APP_SETTINGS VARIABLE is " + env_config : " Your REDIS url is: " + redis_url + " 🚅"})
+    return jsonify({"Your APP_SETTINGS VARIABLE is " + env_config : "REDIS url: " + redis_url + ", Postgres URL = " + postgres_url})
 
 
 @app.route('/tasks', methods=['GET'])
@@ -27,6 +28,13 @@ def queue_tasks():
     job2 = q.enqueue_in(timedelta(seconds=10), utils.print_numbers, 5)
     # return created job id
     return "Job IDs: " + str(job.get_id()) + ", " + str(job2.get_id())
+
+
+@app.route('/db-migrate', methods=['POST'])
+def queue_tasks():
+    job = q.enqueue(utils.db_migrate)
+    # return created job id
+    return "Job ID: " + str(job.get_id())
 
 
 if __name__ == '__main__':

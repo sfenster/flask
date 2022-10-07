@@ -1,5 +1,10 @@
 import requests
 import random
+from flask_migrate import upgrade
+
+def db_migrate
+    upgrade()
+
 
 def count_words_at_url(url):
     resp = requests.get(url)
