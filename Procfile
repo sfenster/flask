@@ -1,2 +1,1 @@
-web: gunicorn app:app
-worker: rq worker --with-scheduler
+web: sh railway.sh
