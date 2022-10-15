@@ -24,6 +24,7 @@ conn = redis.from_url(redis_url)
 q = Queue(connection=conn)
 
 import utils
+from models import *
 
 @app.route('/')
 def index():
