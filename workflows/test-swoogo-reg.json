@@ -1,0 +1,25 @@
+{
+  "name": "test-webhooks",
+  "type": "webhook",
+  "actions": [
+    {
+      "type": "registration",
+      "action_data": {
+        "required_fields": [
+          "event_id",
+          "email",
+          "platform"
+        ],
+        "optional_fields": [
+          "first_name",
+          "last_name",
+          "registration_dtatus",
+          "po_number",
+          "discount_code",
+          "payment_method",
+          "send_email"
+        ]
+      }
+    }
+  ]
+}
